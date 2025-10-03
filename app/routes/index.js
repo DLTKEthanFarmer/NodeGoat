@@ -68,8 +68,25 @@ const index = (app, db) => {
 
     // Handle redirect for learning resources link
     app.get("/learn", isLoggedIn, (req, res) => {
-        // Insecure way to handle redirects by taking redirect url from query string
-        return res.redirect(req.query.url);
+        // Secure redirect with URL validation using allow-list
+        const allowedUrls = [
+            "https://owasp.org",
+            "https://www.owasp.org",
+            "https://cheatsheetseries.owasp.org"
+        ];
+
+        const requestedUrl = req.query.url;
+
+        // Check if URL starts with any allowed domain
+        const isAllowed = allowedUrls.some(allowed =>
+            requestedUrl && requestedUrl.startsWith(allowed)
+        );
+
+        if (isAllowed) {
+            return res.redirect(requestedUrl);
+        } else {
+            return res.status(400).send("Invalid redirect URL");
+        }
     });
 
     // Research Page
