@@ -27,5 +27,9 @@ test/e2e/videos/
 .env.local
 .env
 
+# ignore SSL private keys and certificates
+*.key
+*.pem
+
 # ignore Snyk Code scanner files
 .dccache
