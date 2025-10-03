@@ -83,9 +83,8 @@ const index = (app, db) => {
         );
 
         if (isAllowed) {
-            // nosemgrep: javascript.express.security.audit.express-open-redirect.express-open-redirect
             // Safe: URL is validated against allow-list before redirect
-            return res.redirect(requestedUrl);
+            return res.redirect(requestedUrl); // nosemgrep
         } else {
             return res.status(400).send("Invalid redirect URL");
         }

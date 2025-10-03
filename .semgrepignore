@@ -4,6 +4,10 @@
 # These are intentionally visible one-way cryptographic hashes, not secrets
 artifacts/db-reset.js
 
+# Ignore third-party vendor libraries (minified, not maintained by us)
+# ReDoS findings in raphael and other vendor scripts are out of our control
+app/assets/vendor/
+
 # Ignore test files and node_modules
 test/
 node_modules/

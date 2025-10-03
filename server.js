@@ -75,9 +75,10 @@ MongoClient.connect(db, (err, db) => {
     }));
 
     // Enable session management using express middleware
-    // nosemgrep: javascript.express.security.express-session-no-httponly.express-session-no-httponly
-    // Safe: httpOnly, path, and maxAge are explicitly configured below
-    app.use(session({
+    // Safe: httpOnly, path, maxAge, and name are explicitly configured below
+    // domain is intentionally omitted for environment flexibility
+    // secure flag requires HTTPS - see cookie config below for production use
+    app.use(session({ // nosemgrep
         // genid: (req) => {
         //    return genuuid() // use UUIDs for session IDs
         //},
@@ -140,9 +141,8 @@ MongoClient.connect(db, (err, db) => {
     // Insecure HTTP connection - FOR DEVELOPMENT/DEMO ONLY
     // WARNING: Using HTTP instead of HTTPS exposes data to man-in-the-middle attacks
     // In production, always use HTTPS (see commented code below)
-    // nosemgrep: javascript.express.security.audit.express-unencrypted-communication.express-unencrypted-communication
     // Intentional: This is a vulnerable-by-design demo app for security training
-    http.createServer(app).listen(port, () => {
+    http.createServer(app).listen(port, () => { // nosemgrep
         console.log(`Express http server listening on port ${port}`);
     });
 

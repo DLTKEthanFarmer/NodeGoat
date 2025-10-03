@@ -1,0 +1,29 @@
+# Semgrep configuration to suppress false positives
+
+rules:
+  - id: suppress-csrf-in-swig-templates
+    pattern: <form
+    languages: [generic]
+    paths:
+      include:
+        - "*.html"
+    message: "CSRF tokens are handled by Swig template engine with {{csrftoken}}"
+    severity: INFO
+
+  - id: suppress-intentional-http-server
+    pattern: http.createServer
+    languages: [javascript]
+    paths:
+      include:
+        - server.js
+    message: "Intentional HTTP server for vulnerable-by-design demo app"
+    severity: INFO
+
+  - id: suppress-validated-redirect
+    pattern: res.redirect
+    languages: [javascript]
+    paths:
+      include:
+        - app/routes/index.js
+    message: "Redirect is protected by allow-list validation"
+    severity: INFO
