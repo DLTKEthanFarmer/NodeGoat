@@ -81,17 +81,18 @@ MongoClient.connect(db, (err, db) => {
         //},
         secret: cookieSecret,
         // Fix for A5 - Security MisConfig
-        // Use generic cookie name
+        // Use generic cookie name instead of default
         name: "sessionId",
         // Both mandatory in Express v4
         saveUninitialized: true,
         resave: true,
         // Fix for A3 - XSS
         cookie: {
-            httpOnly: true,
-            path: "/",
-            maxAge: 3600000 // 1 hour in milliseconds
-            // Remember to start an HTTPS server to get this working
+            httpOnly: true, // Prevents client-side JS from accessing the cookie
+            path: "/", // Cookie available across entire application
+            maxAge: 3600000, // Session expires after 1 hour (equivalent to setting expires)
+            // Note: domain is intentionally omitted for environment flexibility
+            // Note: secure flag requires HTTPS - uncomment for production with SSL/TLS
             // secure: true
         }
     }));
@@ -134,14 +135,16 @@ MongoClient.connect(db, (err, db) => {
         */
     });
 
-    // Insecure HTTP connection
+    // Insecure HTTP connection - FOR DEVELOPMENT/DEMO ONLY
+    // WARNING: Using HTTP instead of HTTPS exposes data to man-in-the-middle attacks
+    // In production, always use HTTPS (see commented code below)
     http.createServer(app).listen(port, () => {
         console.log(`Express http server listening on port ${port}`);
     });
 
     /*
     // Fix for A6-Sensitive Data Exposure
-    // Use secure HTTPS protocol
+    // Use secure HTTPS protocol for production
     https.createServer(httpsOptions, app).listen(port, () => {
         console.log(`Express http server listening on port ${port}`);
     });
