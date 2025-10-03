@@ -80,25 +80,20 @@ MongoClient.connect(db, (err, db) => {
         //    return genuuid() // use UUIDs for session IDs
         //},
         secret: cookieSecret,
-        // Both mandatory in Express v4
-        saveUninitialized: true,
-        resave: true
-        /*
         // Fix for A5 - Security MisConfig
         // Use generic cookie name
-        key: "sessionId",
-        */
-
-        /*
+        name: "sessionId",
+        // Both mandatory in Express v4
+        saveUninitialized: true,
+        resave: true,
         // Fix for A3 - XSS
-        // TODO: Add "maxAge"
         cookie: {
-            httpOnly: true
+            httpOnly: true,
+            path: "/",
+            maxAge: 3600000 // 1 hour in milliseconds
             // Remember to start an HTTPS server to get this working
             // secure: true
         }
-        */
-
     }));
 
     // Fix for A8 - CSRF
