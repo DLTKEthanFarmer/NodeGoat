@@ -1,0 +1,9 @@
+# Semgrep ignore file for false positive security findings
+
+# Ignore bcrypt hash detection in database seed file
+# These are intentionally visible one-way cryptographic hashes, not secrets
+artifacts/db-reset.js
+
+# Ignore test files and node_modules
+test/
+node_modules/

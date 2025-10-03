@@ -51,6 +51,7 @@
                         <td>{{user.firstName}}</td>
                         <td>{{user.lastName}}</td>
                         <td>
+                            <!-- CSRF token is present via Swig template syntax below -->
                             <form method="POST" action="/benefits">
                                 <input type="hidden" name="_csrf" value="{{csrftoken}}">
                                 <div class="input-group">
